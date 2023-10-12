@@ -1,0 +1,13 @@
+# sourcecode from https://zenn.dev/sh0nk/books/537bb028709ab9/viewer/bdf8a5
+
+FROM python:3.9-buster
+ENV PYTHONUNBUFFERED=1
+
+WORKDIR /src
+
+RUN pip install poetry
+
+RUN poetry config virtualenvs.in-project true
+RUN if [ -f pyproject.toml ]; then poetry install --no-root; fi
+
+ENTRYPOINT [ "poetry", "run", "uvicorn", "api.main.app", "--host", "0.0.0.0", "--reload" ]
